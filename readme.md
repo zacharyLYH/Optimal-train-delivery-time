@@ -6,16 +6,18 @@ Brute force is the only way to find all possible configurations and assess deliv
 
 1. Initialize the graph with nodes and edges.
 2. Generate all possible moves for each train at each step. `generateMoves()`
-3. Using the results from (2), calculate the time taken for each configuration and store the shortest time.
+3. Using the results from (2), calculate the time taken for each configuration and store the shortest time in `calculateTravelTime()`.
 4. Return the shortest time from (3).
 
 ### Complexity
 
-`permutations()` generates all permutations of the input list of trains. The number of permutations of m trains is `m!`, thus this function is a `O(m!)` algorithm.
+`permutations()` generates all permutations of the input list of packages. The number of permutations of n packages is `n!`, thus this function is a `O(n!)` algorithm.
 
-`product()` generates all possible assignments of n packages to m trains. The complexity is `O(m^n)` because it generates every possible combination of m trains for n packages.
+`generateMoves()` iterates over the trains in `O(m)` and applies itself to all `O(n!)` possible package delivery orderings. Total complexity is thus `O(m*n!)`. The only intelligence it is built in with is it checks for `validConfigurations`. A valid configuration is a configuration where all the packages can be loaded onto the train without the train getting overweight; suppose we have a configuration where the package weight is 10 and the train's capacity is 5, then this configuration is quickly rejected.
 
-`generateMoves()` terates over each permutation of the trains `(O(m!))` and each assignment of packages `(O(m^n))`. It generates all possible moves given all train permutations and packages. The only intelligence it is built in with is it checks for `validConfigurations`. A valid configuration is a configuration where all the packages can be loaded onto the train without the train getting overweight; suppose we have a configuration where the package weight is 10 and the train's capacity is 5, then this configuration is quickly rejected.
+`calculateTravelTime()` calculates the total travel time for a given train configuration using Dijkstra's algorithm to find the shortest paths. Since the complexity of Dijkstra's is `O(E+VlogV)` where `E` is an edge and `V` is a vertex, the final complexity is `O(S⋅(E+VlogV))` where `S` is the number of stops we make along a route. To optimized, we have implemented a memoization for Dijkstra, such that if we've previously calculated the result for a set of inputs, we will just return it from a storage.
+
+`main()`. Generally, the complexity is dominated by the `generateMoves()` function.
 
 ### Test case
 

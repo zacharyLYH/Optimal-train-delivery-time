@@ -147,7 +147,7 @@ func findMinimalTimeConfiguration(moves [][]Train, edge []Edge) int {
 		maxTime := 0
 		for _, train := range move {
 			time := calculateTravelTime(train, edge)
-			if time > maxTime {
+			if time > maxTime { //we're only interested in the time taken for the longest train 
 				maxTime = time
 			}
 		}
